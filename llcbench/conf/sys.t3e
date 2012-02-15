@@ -1,0 +1,26 @@
+# Cray T3E sys.def
+
+# Blasbench values
+
+BB_CC		= cc
+BB_CFLAGS	= -O3 -h unroll -h pipeline3 -h aggress -X1 -DT3E -DREGISTER 
+BB_LDFLAGS 	= -O3 -h unroll -h pipeline3 -h aggress -X1
+BB_LIBS		= -lsci 
+
+# Cachebench values
+
+CB_CC		= $(BB_CC)
+CB_CFLAGS	= $(BB_CFLAGS)
+CB_LDFLAGS 	= $(BB_LDFLAGS)
+
+# MPbench values
+
+MP_MPI_CC	= $(BB_CC)
+MP_CFLAGS	= -O3 -h unroll -h pipeline3 -h aggress -DT3E -DREGISTER 
+MP_LDFLAGS	= -O3 -h unroll -h pipeline3 -h aggress
+MPI_LIBS	= -lmpi
+MPIRUNCMD	= mpprun
+MPIRUNPOSTOPTS	= mpi_bench
+MPIRUNPROCS	= -n
+
+

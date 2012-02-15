@@ -1,0 +1,170 @@
+MPBench README
+------------------
+
+Introduction
+------------
+
+This is version 4.0 of MPbench, a program to measure
+the performance of some essential operations of implementations
+of the MPI and PVM message passing programming model.
+
+This version can measure the following.
+
+1) Bandwidth (BB/second)
+2) Gap Time (time to launch a message and continue) (Us)
+3) Roundtrip or 2 * Latency (transactions/second)
+4) Asynchronous Bidirectional bandwidth (KB/second)
+5) Broadcast (KB/second)
+6) Sum reduction (KB/second)
+7) Allreduce (KB/second)
+8) AlltoAll (KB/second)
+ 
+Simple example of use
+---------------------
+
+1) Build the Distribution
+
+Begin in the LLCBench root directory
+
+First we must configure the build for our machine, OS and MPI libraries. All
+configurations support the reference MPI if available. Before configuration 
+make with no arguments lists the possible targets.
+
+kiwi> make
+Please use one of the following targets:
+
+        solaris sunos5
+        sun sunos4
+        sgi-o2k o2k
+        linux-mpich
+        linux-lam
+        alpha
+        t3e
+        ppc ibm-ppc
+        pow2 ibm-pow2
+        reconfig (to bring this menu up again)
+
+Configure the build. Here, we are on a Solaris workstation.
+
+kiwi> make solaris
+ln -s conf/sys.solaris sys.def
+
+
+MPBench's default runtime variable values are contained in the file make.def and may
+be modified there.  Also examine the sys.def file to ensure proper compiler flags and paths to
+the MPI libraries.
+
+Now type make to get options for building a benchmark.
+
+kiwi> make
+Please use one of the following targets:
+
+For all three : bench, run, graphs
+For Blasbench : blas-bench, blas-run, blas-graphs
+For Cachebench: cache-bench, cache-run, cache-graphs
+For MPbench   : mp-bench, mp-run mp-graphs
+
+kiwi> make mp-bench
+cd mpbench; make mpi_bench
+cc -fast -I/src/icl/MPI/mpich/include -DMPI -c mpbench.c -o mpbench.o
+cc -fast mpbench.o -o mpi_bench -L/src/icl/MPI/mpich/lib/solaris/ch_p4 -lmpi -lsocket -lnsl 
+
+
+2) Running MPBench
+
+While MPBench can be run from the command line, it is designed to be run
+from via the Makefile.  Running it via the makefile automates the collection and
+presentation process. By default, the makefile runs
+with the arguments  {-e 1 -i 100 -x 2 -m 16} and with 16 processes. This says that each 
+size should be repeated only once, the iteration count should be
+set to 100, two measurements are taken betwen every problem size value that is a power of two, 
+and the maximum problem size tested is 2 ^{16} bytes. You can change the default settings 
+by changing the variables in the make.def after you have configured the distribution.
+
+When running MPI, sometimes it is required that
+you set up a hostfile containing the names of the hosts on which to run the 
+processes. If your installation requires a hostfile, MPBench will tell you. 
+If that happens, please check your {\tt mpirun} man page for the format.
+The resulting datafiles for each of the runs will be left in
+mpbench/results/<OS>-<HOSTNAME>\_<API>\_<test>.dat
+
+
+kiwi> make mp-run
+cd mpbench; make run
+ Latency test...
+ Roundtrip test...
+ Bandwidth test...
+ Bidirectional Bandwidth test...
+ Broadcast test...
+ Reduce test...
+ Allreduce test...
+ All-to-all test...
+
+Datafiles are located in the mpbench/results directory.
+
+Now we plot the results with GNUplot. If GNUplot is not available on
+your system, perform the following.
+
+Unpack the distribution on a machine that does.
+Copy your results files to the new machine in the MPBench directory.
+Execute make\_graphs.sh with the common prefix of your datafiles.
+
+Normally, we can make the graphs immediately.
+
+
+kiwi> make mp-graphs
+cd mpbench; make graphs
+results/SunOS-kiwi_mpi
+Graphing results/SunOS-kiwi_mpi_latency.dat...
+Postscript graph is in results/SunOS-kiwi_mpi_latency.ps.
+Graphing results/SunOS-kiwi_mpi_roundtrip.dat...
+Postscript graph is in results/SunOS-kiwi_mpi_roundtrip.ps.
+Graphing results/SunOS-kiwi_mpi_bandwidth.dat...
+Postscript graph is in results/SunOS-kiwi_mpi_bandwidth.ps.
+Graphing results/SunOS-kiwi_mpi_bibandwidth.dat...
+Postscript graph is in results/SunOS-kiwi_mpi_bibandwidth.ps.
+Graphing results/SunOS-kiwi_mpi_alltoall.dat...
+Postscript graph is in results/SunOS-kiwi_mpi_alltoall.ps.
+Graphing results/SunOS-kiwi_mpi_broadcast.dat...
+Postscript graph is in results/SunOS-kiwi_mpi_broadcast.ps.
+Graphing results/SunOS-kiwi_mpi_reduce.dat...
+Postscript graph is in results/SunOS-kiwi_mpi_reduce.ps.
+Graphing results/SunOS-kiwi_mpi_allreduce.dat...
+Postscript graph is in results/SunOS-kiwi_mpi_allreduce.ps.
+
+Graphs are located in the mpbench/results directory.
+
+The graphs will be left in the results directory.
+
+Usage
+------
+Usage: (MPI implementation dependent portion) mpi_bench -blracyz [-i #] [-x #] [-m #] [-d #] [-e #]
+         -b Do bandwidth benchmark
+         -d Do bidirectional bandwidth benchmark
+         -l Do latency benchmark
+         -r Do roundtrip benchmark
+         -a Do all-to-all benchmark
+         -c Do broadcast benchmark
+         -y Do reduce benchmark
+         -z Do allreduce benchmark
+         -i Specify the iterations over which to average. 
+         -x Specify the number of measurements between powers of 2.  
+         -m Specify the log2(available physical memory) to be used 
+            as the maximum message size.
+         -e Specify the repeat count per message size. 
+
+Questions/Comments
+------------------
+
+Please send any suggestions/questions or comments to Philip J. Mucci
+at mucci@cs.utk.edu. His home page is http://www.cs.utk.edu/~mucci.
+
+Disclaimer
+----------
+
+This software is distributed free of charge by Philip J. Mucci
+and the Computer Science Department of the University of Tennessee
+at Knoxville. It is provided with ABSOLUTELY NO WARRANTY and 
+NO GUARANTEE. 
+
+Modified 11/98 JET

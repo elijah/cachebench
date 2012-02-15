@@ -1,0 +1,86 @@
+<html>
+
+<head>
+<title>Cache Benchmark Home Page</title>
+</head>
+
+<body>
+
+<h1 align="center">Cache Benchmark Home Page </h1>
+<a HREF="http://www.utk.edu">
+
+<p><img SRC="UT.gif" ALT="UTK HomePage" ALIGN="right" WIDTH="70" HEIGHT="43"></a> <a HREF="http://www.cs.utk.edu"><img SRC="csweb1.gif" ALT="UTK CS HomePage" ALIGN="left" WIDTH="70" HEIGHT="43"> </p>
+
+<h1 align="center">Computer Science Department </h1>
+</a>
+
+<p><br>
+<br>
+<img SRC="linerb.gif" ALT="Separator" WIDTH="100%"> <br>
+</p>
+
+<h2>Description:</h2>
+
+<ul>
+  <li>This is <b>version 2.0 </b>of a program to empirically determine some parameters about
+    an architectures memory subsystem. Remember, your machine must be dead quiet to produce
+    accurate results. </li>
+  <li>CacheBench has now been integrated into <a HREF="index.htm">LLCbench</a> (Low Level
+    Characterization Benchmarks) <p>The <a HREF="cachebench.README">README</a> file includes
+    the necessary installation and execution instructions. </p>
+    <p>The CacheBench Report <a HREF="cachebench.ps">PS</a> <a href="cachebench.pdf">PDF</a></p>
+  </li>
+</ul>
+
+<h2>Features:</h2>
+
+<ul>
+  <li>Added hand tuned loops via the -t option as well as memset and memcpy tests. </li>
+  <li>Configuration scripts. </li>
+  <li>Flexible data types, defaults to double instead of int. </li>
+  <li>Better default behavior and compile options. </li>
+  <li>8 different tests, read, write and read/modify/write. </li>
+  <li>Automated build test, execution and result processing. </li>
+  <li>Generates postscript graphs using GNUplot. </li>
+  <li>Measurement of access time in nanoseconds and bandwidth in MB/sec. </li>
+  <li>Safe from aggressive optimizing compilers. </li>
+  <li>Tunable run time parameters to reduce test domain. </li>
+  <li>Completely <a HREF="http://www.rational.com/products/purify_unix/index.jtmpl">Purified</a>!
+  </li>
+  <li>Here's the <a HREF="cachebench.README">README</a>. </li>
+</ul>
+
+<h2>Usage:</h2>
+
+<pre>
+Usage: cachebench -rwbtsp [-x #] [-m #] [-d #] [-e #]
+         -r Read benchmark
+         -w Write benchmark
+         -b Read/Modify/Write benchmark
+         -t Use hand tuned versions of the above
+         -s memset() benchmark
+         -p memcpy() benchmark
+         -x Number of measurements between powers of 2.
+         -m Specify the log2(available physical memory)
+         -d Number of seconds per iteration
+         -e Repeat count per cache size
+
+Datatype used is double, 8 bytes.
+Defaults if  tty: -rwbsp -x1 -m24 -d5 -e2
+Defaults if file: -b   -x1 -m24 -d5 -e1
+</pre>
+
+<p>The output looks like this: </p>
+
+<pre>
+                        Read Cache Test
+
+C Size          Nanosec         MB/sec          % Chnge
+-------         -------         -------         -------
+4096            7.396           515.753         1.000
+6144            7.594           502.350         1.027
+8192            7.731           493.442         1.018
+12288           17.578          217.015         2.274
+</pre>
+</body>
+</html>

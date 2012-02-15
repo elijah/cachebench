@@ -1,0 +1,132 @@
+<html>
+
+<head>
+<title>LLCbench Home Page</title>
+</head>
+
+<body>
+
+<h1 align="center">LLCbench Home Page </h1>
+<a HREF="http://www.utk.edu">
+
+<p><img SRC="UT.gif" ALT="UTK HomePage" ALIGN="right" WIDTH="70" HEIGHT="43"></a> <a HREF="http://www.cs.utk.edu"><img SRC="csweb1.gif" ALT="UTK CS HomePage" ALIGN="left" WIDTH="70" HEIGHT="43"> </p>
+
+<h1 align="center">Computer Science Department </h1>
+</a>
+
+<p align="center"><a HREF="http://www.cs.utk.edu/~mucci">Back to the Author's Home Page</a><br>
+Send mail to <a HREF="mailto:mucci@cs.utk.edu">mucci@cs.utk.edu</a> with your comments,
+questions and bug reports . </p>
+<CENTER> You are visitor: <IMG align=middle SRC="http://www.cs.utk.edu/~mucci/cgi-bin/counter.cgi?llcbench&width=5&font=digital"></CENTER>
+
+<p><img SRC="linerb.gif" ALT="Separator" WIDTH="100%"> </p>
+
+<h1 align="center">New release is available! 7/1/2000</h1>
+7/1/2000 - Fixed integer overflow in mpbench.c
+<h2>Description:</h2>
+
+<p>LLCbench (Low-Level Characterization Benchmarks) was created by combining <a HREF="mpbench.html">MPBench</a>, <a HREF="cachebench.html">CacheBench</a>, and <a HREF="blasbench.html">BLASBench</a> into a single benchmark package. </p>
+
+<h2>Sample results:</h2>
+<p>
+<ul>
+<li>Origin 2000 <a HREF="o2k_allreduce.ps">MPI_allreduce.ps</a> <a HREF="o2k_allreduce.pdf">MPI_allreduce.pdf</a>
+<li>Origin 2000 <a HREF="o2k_alltoall.ps">MPI_alltoall.ps</a> <a HREF="o2k_alltoall.pdf">MPI_alltoall.pdf</a>
+<li>Origin 2000 <a HREF="o2k_bandwidth.ps">MPI_bandwidth.ps</a> <a HREF="o2k_bandwidth.pdf">MPI_bandwidth.pdf</a>
+<li>Origin 2000 <a HREF="o2k_bibw.ps">MPI_bibw.ps</a> <a HREF="o2k_bibw.pdf">MPI_bibw.pdf</a>
+<li>Origin 2000 <a HREF="o2k_broadcast.ps">MPI_broadcast.ps</a> <a HREF="o2k_broadcast.pdf">MPI_broadcast.pdf</a>
+<li>Origin 2000 <a HREF="o2k_latency.ps">MPI_latency.ps</a> <a HREF="o2k_latency.pdf">MPI_latency.pdf</a>
+<li>Origin 2000 <a HREF="o2k_reduce.ps">MPI_reduce.ps</a> <a HREF="o2k_reduce.pdf">MPI_reduce.pdf</a>
+<li>Origin 2000 <a HREF="o2k_roundtrip.ps">MPI_roundtrip.ps</a> <a HREF="o2k_roundtrip.pdf">MPI_roundtrip.pdf</a>
+<li>IBM SP3 <a HREF="sp_cache.ps">cache.ps</a> <a HREF="sp_cache.pdf">cache.pdf</a>
+<li>Cray T3E <a HREF="t3e_blas.ps">blas.ps</a> <a HREF="t3e_blas.pdf">blas.pdf</a>
+</ul>
+</p>
+<h2>To get LLCbench:</h2>
+
+<p>Download the distribution: <a href="llcbench.tar.gz">llcbench.tar.gz</a>.</p>
+
+<p>Or access the CVS repository directly:</p>
+
+<pre><strong>$ setenv CVSROOT :pserver:anonymous@hera.cs.utk.edu:/cvs/homes/llcbench
+$ cvs login
+Password: &lt;cr&gt;
+$ cvs checkout llcbench
+$ cvs logout</strong></pre>
+
+<p>Or <a href="llcbenchcvsweb.cgi">surf the CVS tree</a> with your browser</p>
+
+<h2>To use LLCbench:</h2>
+
+<pre><strong>UNIX&gt; gzip -dc llcbench.tar.gz | tar xvf -
+UNIX&gt; cd llcbench
+UNIX&gt; make
+
+Please use one of the following targets:
+
+        alpha
+        alpha-mpich
+        linux-lam
+        linux-mpich
+        o2000
+        pow2
+        pow3
+        ppc
+        solaris
+        solaris-mpich
+        t3e
+        reconfig (to bring this menu up again)
+</strong></pre>
+
+<h2>Choose the appropriate target: </h2>
+
+<pre><strong>UNIX&gt; make solaris-mpich
+ln -s conf/sys.solaris sys.def
+</strong></pre>
+
+<h2>Optionally edit/review the compile options:</h2>
+
+<pre><strong>UNIX&gt; vi sys.def</strong></pre>
+
+<h2>Build the benchmarks: </h2>
+
+<pre><strong>UNIX&gt; make
+Please use one of the following targets:
+
+For all three : compile, run, graph, clean, clobber, reconfig
+For BlasBench : blas-bench, blas-run, blas-graph
+For CacheBench: cache-bench, cache-run, cache-graph
+For MPBench   : mp-bench, mp-run, mp-graph
+UNIX&gt; make compile</strong></pre>
+
+<h2>Optionally edit/review the run-time options:</h2>
+
+<pre><strong>UNIX&gt; vi user.def</strong></pre>
+
+<h2>Run the benchmarks:</h2>
+
+<pre><strong>UNIX&gt; make run</strong></pre>
+
+<h2>Examine and graph the results:</h2>
+
+<pre><strong>UNIX&gt; cd results
+UNIX&gt; ls *.dat *.tar
+UNIX&gt; make graph
+UNIX&gt; ls *.ps
+UNIX&gt; ghostview *.ps</strong></pre>
+
+<h2>Related links</h2>
+
+<ul>
+  <li><a href="http://wwwipd.ira.uka.de/~skampi/">SkaMPI MPI Benchmark</a></li>
+  <li><a HREF="http://www.aim.com">AIM Benchmarks</a> </li>
+  <li><a HREF="http://www.cs.virginia.edu/stream">STREAM Benchmark</a> </li>
+  <li><a HREF="http://www.scl.ameslab.gov/Publications/HINT/ComputerPerformance.html">The HINT
+    benchmark and Computer Performance</a> </li>
+  <li><a HREF="http://www.hpcc.ecs.soton.ac.uk/RandD/genesis/genesis.html">Genesis Parallel
+    Benchmarks</a>&nbsp; </li>
+  <li><a HREF="news:comp.benchmarks"><tt>comp.benchmarks</tt> Newsgroup</a> </li>
+  <li><a HREF="http://www.cs.wisc.edu/~arch/www">WWW Computer Architecture Home Page</a> </li>
+</ul>
+</body>
+</html>

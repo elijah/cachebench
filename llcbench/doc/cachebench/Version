@@ -1,0 +1,32 @@
+Changes
+-------
+V2.1
+----
+	o	Fixed coredump on T3E
+	o	Fancied up Makefile
+
+V2.0
+----
+	o	Added configuration files
+	o	Added memset, memcpy and hand tuned versions.
+	o	Added flexible datatypes
+	o 	Turned off calibration code by default
+	o	Better default parameters
+	o	Improved calibration code by fixing the iteration count
+
+V1.2
+----
+	o	Added DATA flag to Makefile for labelling
+
+V1.1
+----
+
+        o       Added flexible datatypes
+        o       Turned off calibration code by default
+        o       Better default parameters
+        o       Improved calibration code by fixing the iteration count
+
+V1.0
+----
+
+	o	Initial release

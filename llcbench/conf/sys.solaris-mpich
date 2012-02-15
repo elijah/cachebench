@@ -1,0 +1,25 @@
+# Solaris / MPICH sys.def
+
+# Blasbench values
+
+COMPPATH 	= /opt/SUNWspro/bin
+BB_CC		= $(COMPPATH)/cc
+BB_CFLAGS	= -fast -dalign -xtarget=ultra2 -xarch=v8plusa
+BB_LDFLAGS 	= $(BB_CFLAGS)
+BB_LIBS		= -xlic_lib=sunperf
+
+# Cachebench values
+
+CB_CC		= $(BB_CC)
+CB_CFLAGS	= $(BB_CFLAGS)
+CB_LDFLAGS 	= $(BB_LDFLAGS)
+
+# MPBench values
+
+MP_MPI_CC	= mpicc
+MP_CFLAGS	= $(BB_CFLAGS)
+MP_LDFLAGS	= $(BB_LDFLAGS) 
+MPI_LIBS	= -L/usr/ucblib -lucb
+MPIRUNCMD	= mpirun
+MPIRUNPROCS	= -np
+MPIRUNPOSTOPTS	= mpi_bench

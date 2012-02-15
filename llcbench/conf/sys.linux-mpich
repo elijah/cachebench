@@ -1,0 +1,22 @@
+# Linux-mpich sys.def
+
+# Blasbench values
+
+BB_CC		= gcc
+BB_CFLAGS	= -O3 -Wall -DREGISTER
+BB_LDFLAGS	= $(BB_CFLAGS)
+BB_LIBS		= -lblas -lg2c
+
+# Cachebench values
+
+CB_CC		= $(BB_CC)
+CB_CFLAGS	= $(BB_CFLAGS)
+CB_LDFLAGS 	= $(BB_LDFLAGS)
+
+# MPbench values
+
+MP_MPI_CC	= mpicc
+MP_CFLAGS	= $(BB_CFLAGS) -DINLINE
+MPIRUNCMD	= mpirun
+MPIRUNPROCS	= -np
+MPIRUNPOSTOPTS	= mpi_bench

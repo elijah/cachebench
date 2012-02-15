@@ -1,0 +1,154 @@
+BLASbench README
+-----------------
+
+Documentation is in the llcbench/blasbench/doc/blasbench.ps
+or on the web at http://icl.cs.utk.edu/projects/llcbench/blasbench/ 
+
+Use -c to keep the number of iterations constant. This can show
+you how efficient your BLAs library is at warming/prefetching
+its data. Otherwise, the benchmark scales the number
+of iterations to keep the number of bytes referenced approximately
+the same. It can also tell you about the loop overhead and the
+code path length...
+
+For simple use:
+
+1) Go to the LLCBench root directory.
+
+kiwi> make
+Please use one of the following targets:
+
+        solaris sunos5
+        sun sunos4
+        sgi-o2k o2k
+        linux-mpich
+        linux-lam
+        alpha
+        t3e
+        ppc ibm-ppc
+        pow2 ibm-pow2
+        reconfig (to bring this menu up again)
+
+After configuration, please check the VBLASLIB variable in 
+sys.def and make sure that it is pointing to the vendor BLAS
+library if one exists.
+
+2) Configure the build. Here, we are on a Solaris workstation.
+
+kiwi> make solaris
+ln -s conf/sys.solaris sys.def
+
+Examine the sys.def file to ensure proper compiler flags and paths to
+the different BLAS libraries.  The BLASLIB variable should contain the
+absolute path to the reference BLAS library and the VBLASLIB variable
+should contain the absolute path to the vendor's BLAS library. If one
+or the other is not available, just leave it blank and that specific
+executable will not be generated. 
+
+Now type make to get options for building a benchmark.
+
+
+kiwi> make
+Please use one of the following targets:
+
+For all three : bench, run, graphs
+For Blasbench : blas-bench, blas-run, blas-graphs
+For Cachebench: cache-bench, cache-run, cache-graphs
+For MPbench   : mp-bench, mp-run mp-graphs
+
+
+Now build BLASBench.  Depending on whether or not both BLASLIB and VBLASLIB are set,
+one or two executables will be generated.
+
+kiwi> make blas-bench
+cd blasbench; make blasbench; make vblasbench
+/opt/SUNWspro/bin//cc -fast -dalign -DREGISTER -xarch=v8plusa -c bb.c
+if [ -f "/src/icl/LAPACK_LIBS/blas_SUN4SOL2.a" ]; then /opt/SUNWspro/bin//f77 -xarch=v8plusa
+-o blasbench bb.o /src/icl/LAPACK_LIBS/blas_SUN4SOL2.a -xlic_lib=sunperf; fi;
+/opt/SUNWspro/bin//f77 -xarch=v8plusa -o vblasbench bb.o  -xlic_lib=sunperf
+
+3) Run BLASBench
+
+BLASBench can be run by hand, but it is intended to be run through the
+makefile. Running it via the makefile automates the collection and
+presentation process. By default, the makefile runs both executables
+with the arguments {\tt -c -o -e 1 -i 10 -x 2 -m 24}. This says that the iteration count
+should be constant, the output should be reported in MFLOPS/sec, each
+size should be repeated only once, the iteration count should be
+set to ten, two measurements are taken betwen every problem size value that is a power of two, 
+and the maximum problem size tested is 2 ^{24} bytes. You can change the default settings 
+by changing the variables in make.def after you have configured the distribution.
+
+kiwi> make blas-run
+cd blasbench; make run
+mkdir results
+if [ -x blasbench ]; then blasbench  -i 10 -e 1 -m 24 -x 2 -c -d -o -v > results/daxpy.dat; fi
+if [ -x blasbench ]; then blasbench  -i 10 -e 1 -m 24 -x 2 -c -d -o -a > results/dgemv.dat; fi
+if [ -x blasbench ]; then blasbench  -i 10 -e 1 -m 24 -x 2 -c -d -o -t > results/dgemm.dat; fi
+.
+.
+.
+Now do a 'make blas-graphs'.
+
+4) Get the resulting datafiles and/or graphs
+
+Running "make blas-graphs" will package up the datafiles for
+analysis on another machine.  If Gnuplot is present, it will also generate 
+the graphs in place and package them separately.
+
+kiwi>make graphs
+Z=`hostname`; cd results; for i in saxpy daxpy sgemv dgemv sgemm dgemm; do if [ -r $.dat ]; then mv $i.dat $i-$Z.dat; fi; done;
+Z=`hostname`; cd results; for i in vsaxpy vdaxpy vsgemv vdgemv vsgemm vdgemm; do if  -r $i.dat ]; then mv $i.dat $i-$Z.dat; fi; done;
+Z=`hostname`; cd results; mv info.dat $Z.info
+Z=`hostname`; Y=`uname -m`; X=`uname -sn`; sed -e "s|TITLE|UTK BLAS performance for Z: $Y|g" < blasgraph.gp > results/custom.gp; echo "plot \"daxpy-$Z.dat\" title 'saxp' with linespoints \\" >> results/custom.gp; for i in dgemv dgemm; do echo ", \"$i-$.dat\" title '$i' with linespoints \\" >> results/custom.gp; done;
+.
+.
+.
+Z=`hostname`; cd results; tar cvf $Z-bp-datafiles.tar *.dat *.gp *.info; 
+.
+.
+.
+Z=`hostname`; cd results; tar cvf $Z-bp-graphs.tar *.ps
+blasperf.ps
+compare.ps
+vblasperf.ps
+
+If you don't have GNUplot, you can make the graphs on another machine
+using the blasbench/results/kiwi-bp-datafiles.tar file.
+
+
+Using Gnuplot to create the graphs will result in either 1 or 3 graphs. Each graph contains the
+performance in megaflops of all three operations. They are named as
+follows:
+
+blasperf.ps - Postscript file of the reference BLAS.
+vblasperf.ps - Postscript file of the vendor's BLAS.
+compare.ps - Comparison of the two.
+
+
+Arguments to BLASBench
+
+This is the BLASBench arguement list from the command line help.  The defaults listed are
+for direct execution of the benchmark (not the defaults for execution through the makefile).
+
+kiwi> blasbench -h
+Usage: blasbench [-vatsco -x # -m # -e # -i #]
+         -v AXPY dot product benchmark
+         -a GEMV matrix-vector multiply benchmark
+         -t GEMM matrix-matrix multiply benchmark
+         -s Use single precision floating point data
+         -c Use constant number of iterations
+         -o Report Mflops/sec instead of MB/sec
+         -x Number of measurements between powers of 2.
+         -m Specify the log2(available physical memory)
+         -e Repeat count per cache size
+         -l Hold LDA and loop over sizes of square submatrices
+         -d Report dimension statistics instead of bytes
+         -i Maximum iteration count at smallest cache size
+
+Default datatype   : double, 8 bytes
+Default datatype   : float, 4 bytes
+Defaults if to tty : -vat -x1 -m24 -e2 -i100000
+Defaults if to file: -t   -x1 -m24 -e1 -i100000
+
+

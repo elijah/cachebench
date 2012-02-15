@@ -1,0 +1,117 @@
+CacheBench README
+------------------
+
+This is a program to generate 8 memory bandwidth curves. I got the
+idea from a sample program in Hennessy and Patterson's Computer
+Architecture, a Quantitative Approach.
+
+Additional Documentation is in llcbench/cachebench/doc/cachebench.ps
+or on the web at http://www.cs.utk.edu/~thurman/llcbench/cachebench/
+ 
+[added JET 11/16/98]
+
+
+1) Build CacheBench
+
+
+First we must configure the build for our machine, OS and BLAS libraries. All
+configurations support the reference BLAS if available. Before configuration 
+{\tt make} with no arguments lists the possible targets.
+
+kiwi> make
+Please use one of the following targets:
+
+        solaris sunos5
+        sun sunos4
+        sgi-o2k o2k
+        linux-mpich
+        linux-lam
+        alpha
+        t3e
+        ppc ibm-ppc
+        pow2 ibm-pow2
+        reconfig (to bring this menu up again)
+
+After configuration, please check the VBLASLIB variable in 
+sys.def and make sure that it is pointing to the vendor BLAS
+library if one exists.
+
+Configure the build. Here, we are on a Solaris workstation.
+
+kiwi> make solaris
+ln -s conf/sys.solaris sys.def
+
+CacheBench's default variable values are contained in the file make.def and may
+be modified there.
+
+2) Building CacheBench
+
+kiwi> make cache-build
+cd cachebench; make cachebench
+cc -fast -dalign -DREGISTER -DUSE_DOUBLE -c cachebench.c 
+cc  -DUSE_DOUBLE -o cachebench cachebench.o 
+
+3)Running CacheBench
+
+While CacheBench can be run from the command line, it is designed executed
+through use of the Makefile. The resulting datafiles for each of the runs 
+will be left in the file:
+results/<test>-<HOSTNAME>-<DATATYPE>.dat}.
+
+kiwi> make cache-run
+Measuring Read...
+Measuring Write...
+Measuring RMW...
+Measuring Tuned Read...
+Measuring Tuned Write...
+Measuring Tuned RMW...
+Measuring memcpy()...
+Measuring memset()...
+.
+[commands deleted for brevity].
+.
+
+4) CacheBench results
+
+Running "make cache-graphs" will attempt to graph
+the results. The datafiles willl be tarred into a file called cacheperf-<HOSTNAME>-<DATATYPE>.tar.
+The  Makefile will then attempt to graph the results.
+If  GNUPlot is not available on this system, simply copy
+cacheperf-<HOSTNAME>-<DATATYPE>.tar to another machine that has
+GNUPlot, extract the tar file and process each GNUPlot script file
+with "gnuplot < <HOSTNAME>.gp > <file>.ps".
+
+kiwi> make cache-graphs
+cd cachebench; make graphs
+.
+.
+.
+X=`uname -n`; cd results; gnuplot < $X.gp > cacheperf-$X-DOUBLE.ps
+
+If you don't have GNUplot, you can make the graphs on another machine
+using the cachebench/results/cacheperf-cetus3b-DOUBLE.tar file.
+
+Arguments to CacheBench
+
+This is the CacheBench arguement list from the command line help.  The defaults listed are
+for direct execution of the benchmark (not the defaults for execution through the makefile).
+
+Usage: cachebench -rwbtsp [-x #] [-m #] [-d #] [-e #]
+         -r Read benchmark
+         -w Write benchmark
+         -b Read/Modify/Write benchmark
+         -t Use hand tuned versions of the above
+         -s memset() benchmark
+         -p memcpy() benchmark
+         -x Number of measurements to take between powers of 2
+         -m Specify the log base 2 of the available physical memory
+         -d Number of seconds per iteration
+         -e Number of times to repeat test for each vector size
+
+Datatype used is double, 8 bytes
+Defaults if  tty: -rwbsp -x1 -m24 -d5 -e2
+Defaults if file: -b   -x1 -m24 -d5 -e1
+
+Note the fact that the defaults are different depending on whether or not the
+output is directed to a TTY or a file. Again, the best way to run cachebench
+is with the Makefile.

@@ -1,0 +1,26 @@
+# DEC UNIX sys.def
+
+# Blasbench values
+
+BB_CC		= cc
+BB_CFLAGS 	= -fast -DREGISTER
+BB_LDFLAGS	= -fast
+#-lm -lUfor -lfor -lFutil -lm -lots -lc
+BB_LIBS		= -ldxml  -lm
+
+# Cachebench values
+
+CB_CC		= $(BB_CC)
+CB_CFLAGS	= $(BB_CFLAGS)
+CB_LDFLAGS 	= $(BB_LDFLAGS)
+
+# MPbench values
+
+MP_MPI_CC	= $(CC)
+MP_CFLAGS	= $(BB_CFLAGS)
+MP_LDFLAGS	= $(BB_LDFLAGS)
+MPI_LIBS	= -lmpi
+MPIRUNCMD	= dmpirun
+MPIRUNPROCS	= -np
+MPIHOSTFILE	= -machinefile
+MPIRUNPOSTOPTS	= mpi_bench

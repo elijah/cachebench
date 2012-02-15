@@ -1,0 +1,62 @@
+# This file contain the common machine-independent options for the suite. #
+###########################################################################
+
+# Prefix of the output files produced by each benchmark
+
+Result_Prefix = llcbench
+
+#### Blasbench Config
+
+# The number of tests which are averaged together for each result
+# Remember the cache is not flushed between iterations, only between test sizes
+BB_Iterations = 1
+
+# The number of times each test is run
+BB_RepeatCount = 1
+
+# Log base 2 of the maximum problem size tested in bytes
+BB_Memsize = 24
+
+# The number of test sizes measured between powers of two
+BB_Resolution = 2
+
+#### Cachebench Config
+
+# Datatype used for each memory reference. 
+# Legal values are DOUBLE, CHAR, INT, FLOAT
+CB_Datatype = DOUBLE
+
+# The number of seconds each test runs.
+CB_SecondsPerIteration = 5
+
+# The number of times each test is run.
+CB_RepeatCount = 1
+
+# Log base 2 of the maximum problem size tested in bytes
+CB_Memsize = 24
+
+# The number of test sizes measured between powers of two
+CB_Resolution = 2
+
+#### MPbench stuff
+
+# The number of tests which are averaged together for each result
+# Remember the cache is not flushed between iterations, only repeated
+# tests 
+MP_Iterations = 100
+
+# The number of tasks used by the MPI collective routines
+MP_Tasks = 16
+
+# The number of times each test is run.
+MP_RepeatCount = 1
+
+# Log base 2 of the maximum message size tested in bytes
+MP_Memsize = 24
+
+# The number of test sizes measured between powers of two
+MP_Resolution = 2 
+
+# The file containing the native MPI hostfile if necessary/desired
+# For example, MPICH users might use
+# MP_Hostfile = -machinefile $$HOME/machinefile

@@ -1,0 +1,24 @@
+# Origin 2000 sys.def
+
+# Blasbench values
+
+BB_CC		= cc -64
+BB_CFLAGS	= -Ofast -DREGISTER
+BB_LDFLAGS 	= -Ofast
+BB_LIBS		= -lcomplib.sgimath
+
+# Cachebench values
+
+CB_CC		= $(BB_CC)
+CB_CFLAGS	= $(BB_CFLAGS)
+CB_LDFLAGS 	= $(BB_LDFLAGS)
+
+# MPbench values
+
+MP_MPI_CC	= $(BB_CC)
+MP_CFLAGS	= $(BB_CFLAGS)
+MP_LDFLAGS	= $(BB_LDFLAGS)
+MPI_LIBS	= -lmpi
+MPIRUNCMD	= mpirun
+MPIRUNPOSTOPTS	= mpi_bench
+MPIRUNPROCS	= -np

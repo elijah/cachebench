@@ -1,0 +1,52 @@
+config:
+	@echo; echo "Please use one of the following targets:"; echo; \
+	echo "	alpha"; \
+	echo "	alpha-mpich"; \
+	echo "	linux-lam"; \
+	echo "	linux-mpich"; \
+	echo "	o2000"; \
+	echo "	pow2"; \
+	echo "	pow3"; \
+	echo "	ppc"; \
+	echo "	solaris"; \
+	echo "	solaris-mpich"; \
+	echo "	t3e"; \
+	echo "	reconfig (to bring this menu up again)"; \
+	echo ""; \
+	echo "After configuration, please check the VBLASLIB variable in "; \
+	echo "sys.def and make sure that it is pointing to the vendor BLAS"; \
+	echo "library if one exists."; 
+
+alpha:
+	@rm -f sys.def
+	ln -s conf/sys.alpha sys.def
+alpha-mpich:
+	@rm -f sys.def
+	ln -s conf/sys.alpha-mpich sys.def
+solaris e10000:
+	@rm -f sys.def
+	ln -s conf/sys.solaris sys.def
+linux-lam:
+	@rm -f sys.def
+	ln -s conf/sys.linux-lam sys.def
+linux-mpich:
+	@rm -f sys.def
+	ln -s conf/sys.linux-mpich sys.def
+o2000 o2k sgi-o2k:
+	@rm -f sys.def
+	ln -s conf/sys.o2k sys.def
+sp-p2 pow2 ibm-pow2:
+	@rm -f sys.def
+	ln -s conf/sys.pow2 sys.def
+sp-p3 pow3 ibm-pow3:
+	@rm -f sys.def
+	ln -s conf/sys.pow3 sys.def
+sp-ppc ppc ibm-ppc:
+	@rm -f sys.def
+	ln -s conf/sys.ppc sys.def
+solaris-mpich:
+	@rm -f sys.def
+	ln -s conf/sys.solaris-mpich sys.def
+t3e:
+	@rm -f sys.def
+	ln -s conf/sys.t3e sys.def

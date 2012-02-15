@@ -1,0 +1,26 @@
+# Sun E10000 sys.def
+
+# Blasbench values
+
+COMPPATH 	= /opt/local/bin
+BB_CC		= $(COMPPATH)/gcc
+BB_CFLAGS	= -fast -dalign 
+BB_LDFLAGS 	= $(BB_CFLAGS)
+BB_LIBS		= -L/opt/local/lib -lmopt -ls3l
+
+# Cachebench values
+
+CB_CC		= $(BB_CC)
+CB_CFLAGS	= $(BB_CFLAGS)
+CB_LDFLAGS 	= $(BB_LDFLAGS)
+
+# MPBench values
+
+MP_MPI_CC	= $(BB_CC)
+MP_CFLAGS	= $(BB_CFLAGS)
+MP_LDFLAGS	= $(BB_LDFLAGS)
+MPI_INC		= -I/opt/SUNWhpc/include
+MPI_LIBS	= $(BB_LIBS) -lmpi
+MPIRUNCMD	= mprun
+MPIRUNPROCS	= -np
+MPIRUNPOSTOPTS	= mpi_bench
